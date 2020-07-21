@@ -7,11 +7,7 @@ require 'app_release/git'
 
 module AppRelease
   class Parser
-    attr_reader :args, :actions
-
-    DEFAULT_ACTIONS = {
-      init: false
-    }.freeze
+    attr_reader :args
 
     def self.parse(args)
       new(args).parse
@@ -19,19 +15,10 @@ module AppRelease
 
     def initialize(args)
       @args = args
-      @actions = DEFAULT_ACTIONS.dup
     end
 
     def parse
-      # puts
-      # puts
-      # puts @args.inspect
-      # puts
-      # puts
-
       parser.parse!(args)
-
-      # @actions
     rescue StandardError => e
       AppRelease::Console.danger("Ambiguously completable string is encountered\n#{e}")
     end
