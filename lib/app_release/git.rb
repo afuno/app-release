@@ -1,4 +1,4 @@
-# require 'app_release/console'
+require 'app_release/console'
 
 module AppRelease
   class Git
