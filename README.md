@@ -1,5 +1,9 @@
 # App Release for Rails
 
+A simple tool for updating the version of a Rails application.
+
+This library was implemented to simplify project versioning. With this tool can store, quickly create and push tags.
+
 ## Installation
 
 ```ruby
