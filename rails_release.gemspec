@@ -6,6 +6,7 @@ require 'rails_release/version'
 Gem::Specification.new do |spec|
   spec.name          = 'rails-release'
   spec.version       = RailsRelease::VERSION
+  spec.platform      = Gem::Platform::RUBY
   spec.authors       = ['Anton Sokolov']
   spec.email         = ['anton@sokolov.digital']
   spec.homepage      = 'https://github.com/afuno/rails-release'
@@ -14,7 +15,6 @@ Gem::Specification.new do |spec|
   spec.description   = 'A simple tool for updating the version of a Rails application'
 
   spec.files         = Dir.glob('{bin/*,lib/**/*,[A-Z]*}')
-  # spec.platform      = Gem::Platform::RUBY
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'rubocop', '= 0.88'
