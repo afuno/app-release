@@ -16,6 +16,4 @@ $LOAD_PATH << "#{__dir__}/../lib"
 
 require 'app_release/parser'
 
-options_result = AppRelease::Parser.parse(ARGV)
-
-# exit if options_result[:exit]
+AppRelease::Parser.parse(ARGV)
