@@ -7,7 +7,7 @@ module AppRelease
     end
 
     def self.push
-      `git push`
+      `git push origin --tags`
 
       AppRelease::Console.success('git push')
     end
@@ -18,17 +18,21 @@ module AppRelease
     end
 
     def create
-      name = [
-        @prefix,
-        @version
-      ].join('/')
+      `git tag #{name_formatted}`
 
-      `git tag #{name}`
-
-      AppRelease::Console.success("Tag #{name} was created")
+      AppRelease::Console.success("Tag #{name_formatted} was created")
 
       # rescue => e
       #   AppRelease::Console.danger(e)
+    end
+
+    private
+
+    def name_formatted
+      [
+        @prefix,
+        @version
+      ].join('/')
     end
   end
 end
