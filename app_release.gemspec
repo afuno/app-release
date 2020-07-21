@@ -1,21 +1,24 @@
 lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-require 'rails_release/version'
+require 'app_release/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'rails-release'
-  spec.version       = RailsRelease::VERSION
+  spec.name          = 'app-release'
+  spec.version       = AppRelease::VERSION
+  spec.platform      = Gem::Platform::RUBY
   spec.authors       = ['Anton Sokolov']
   spec.email         = ['anton@sokolov.digital']
-  spec.homepage      = 'https://github.com/afuno/rails-release'
+  spec.homepage      = 'https://github.com/afuno/app-release'
   spec.licenses      = ['MIT']
   spec.summary       = 'A simple tool for updating the version of a Rails application'
   spec.description   = 'A simple tool for updating the version of a Rails application'
 
-  spec.files         = Dir.glob('{bin/*,lib/**/*,[A-Z]*}')
-  # spec.platform      = Gem::Platform::RUBY
+  spec.files         = `git ls-files -z *.md *.gemspec bin lib`.split("\x0")
   spec.require_paths = ['lib']
 
+  spec.executables   = ['app_release']
+
+  spec.add_dependency 'colorize', '~> 0.8.1'
   spec.add_development_dependency 'rubocop', '= 0.88'
 end
