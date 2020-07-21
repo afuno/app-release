@@ -1,8 +1,9 @@
 require 'optparse'
 require 'yaml'
-require 'colorize'
 
 require 'app_release/constants'
+require 'app_release/console'
+require 'app_release/git'
 
 module AppRelease
   class Parser
@@ -31,6 +32,8 @@ module AppRelease
       parser.parse!(args)
 
       # @actions
+    rescue StandardError => e
+      AppRelease::Console.danger("Ambiguously completable string is encountered\n#{e}")
     end
 
     private
@@ -45,48 +48,55 @@ module AppRelease
         end
 
         opts.on('-v', '--version', 'The current version of the gem') do
-          show(AppRelease::VERSION)
+          AppRelease::Console.log(AppRelease::VERSION)
           exit
         end
 
         opts.on('-h', '--help', 'Prints this help') do
-          show(opts)
+          AppRelease::Console.log(opts)
           exit
         end
 
-        opts.on('-major', 'Upgrading the major version') do
+        opts.on('--major', 'Upgrading the major version') do
           upgrading_version(:major)
         end
 
-        opts.on('-minor', 'Upgrading the minor update') do
+        opts.on('--minor', 'Upgrading the minor update') do
           upgrading_version(:minor)
         end
 
-        opts.on('-patch', 'Upgrading the patch update') do
+        opts.on('--patch', 'Upgrading the patch update') do
           upgrading_version(:patch)
         end
 
-        # opts.on('-create-git-tag', 'Create git tag') do
-        #   create_git_tag
-        # end
+        opts.on('--create-git-tag', 'Create git tag') do
+          create_git_tag_with
+        end
+
+        opts.on('--create-git-tag-for PREFIX', 'Create git tag with prefix') do |prefix|
+          create_git_tag_with(prefix)
+        end
+
+        opts.on('--git-push', 'git push') do
+          AppRelease::Git.push
+        end
       end
     end
 
     def init_version_file
       if file_exists?
-        show("File #{AppRelease::Constants::FILE_NAME} has already been created", :yellow)
+        AppRelease::Console.warning("File #{AppRelease::Constants::FILE_NAME} has already been created")
       else
         create_version_file
 
-        show("File #{AppRelease::Constants::FILE_NAME} was created", :green)
+        AppRelease::Console.success("File #{AppRelease::Constants::FILE_NAME} was created")
       end
     end
 
     def upgrading_version(section)
       unless file_exists?
-        show(
-          "First, you need to create a version file.\nTo do this, run command `bundle exec app_release --init`",
-          :red
+        AppRelease::Console.danger(
+          "First, you need to create a version file.\nTo do this, run command `bundle exec app_release --init`"
         )
         exit
       end
@@ -98,11 +108,11 @@ module AppRelease
       patch = file[:patch]
 
       if !major.positive? && !minor.positive? && !patch.positive?
-        show('Something is wrong with the versions', :red)
+        AppRelease::Console.danger('Something is wrong with the versions')
         exit
       end
 
-      show("Previous version: #{version_formatted_for(file)}", :yellow)
+      AppRelease::Console.warning("Previous version: #{version_formatted_for(file)}")
 
       version_from_section = file[section]
 
@@ -117,7 +127,7 @@ module AppRelease
 
       update_version_file_with(file)
 
-      show("New version: #{version_formatted_for(file)}", :green)
+      AppRelease::Console.success("New version: #{version_formatted_for(file)}")
     end
 
     def version_formatted_for(file)
@@ -163,17 +173,10 @@ module AppRelease
     ############################################################################
     ############################################################################
 
-    # def create_git_tag
-    # end
-
-    ############################################################################
-    ############################################################################
-    ############################################################################
-
-    def show(value, color = nil)
-      # puts
-      puts value.colorize(color)
-      # puts
+    def create_git_tag_with(prefix = nil)
+      file = current_version_file.dup
+      version = version_formatted_for(file)
+      AppRelease::Git.create(version, prefix)
     end
   end
 end
