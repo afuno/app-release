@@ -1,0 +1,2 @@
+module AppRelease
+end
