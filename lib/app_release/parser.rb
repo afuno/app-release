@@ -6,66 +6,6 @@ require 'app_release/constants'
 
 module AppRelease
   class Parser
-    # attr_reader :args, :options
-
-    # Options = Struct.new(:name)
-
-    # DEFAULT_OPTIONS = {
-    #   exit: false
-    # }.freeze
-    #
-    # def self.parse(args)
-    #   new(args).parse
-    # end
-    #
-    # def initialize(args)
-    #   @args = args
-    #   @options = DEFAULT_OPTIONS.dup
-    # end
-    #
-    # def parse
-    #   puts
-    #   puts
-    #   puts args.inspect
-    #   puts
-    #   puts
-    #
-    #   parser.parse!(args)
-    #
-    #   options
-    # end
-    #
-    # private
-    #
-    # def parser
-    #   OptionParser.new do |opts|
-    #     add_options_to_parser(opts)
-    #   end
-    # end
-
-    # def self.parse(options)
-    #   args = Options.new('world')
-    #
-    #   opt_parser = OptionParser.new do |opts|
-    #     opts.banner = 'Usage:'
-    #
-    #     opts.on('-nNAME', '--name=NAME', 'Name to say hello to') do |n|
-    #       args.name = n
-    #     end
-    #
-    #     opts.on('-h', '--help', 'Prints this help') do
-    #       puts opts
-    #       exit
-    #     end
-    #   end
-    #
-    #   opt_parser.parse!(options)
-    #
-    #   puts args
-    #
-    #   args
-    # end
-
     attr_reader :args, :actions
 
     DEFAULT_ACTIONS = {
