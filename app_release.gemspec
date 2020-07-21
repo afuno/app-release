@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'A simple tool for updating the version of a Rails application'
   spec.description   = 'A simple tool for updating the version of a Rails application'
 
-  spec.files         = Dir['bin/**/* lib/**/*', 'README.md', 'LICENSE.md']
+  spec.files         = `git ls-files -z *.md *.gemspec bin lib`.split("\x0")
   spec.require_paths = ['lib']
 
   spec.executables   = ['app_release']
