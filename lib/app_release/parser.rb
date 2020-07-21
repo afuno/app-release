@@ -1,4 +1,8 @@
 require 'optparse'
+require 'yaml'
+require 'colorize'
+
+require 'app_release/constants'
 
 module AppRelease
   class Parser
@@ -114,15 +118,24 @@ module AppRelease
     end
 
     def init_version_file
-      puts 'init_version_file'
+      file_name = AppRelease::Constants::FILE_NAME
+      file_path = "#{Dir.pwd}/#{file_name}"
 
-      if File.exist?('./Gemfile')
+      if File.exist?(file_path)
+        show("File #{file_name} has already been created", :yellow)
+      else
+        File.open(file_path, 'w') do |file|
+          file.write("# Edit this file manually only if you know what you are doing\n\n")
+          file.write(AppRelease::Constants::INIT_VERSION.to_yaml.gsub("---\n", ''))
+        end
+
+        show("File #{file_name} was created", :green)
       end
     end
 
-    def show(value)
+    def show(value, color = nil)
       puts
-      puts value
+      puts value.colorize(color)
       puts
     end
   end

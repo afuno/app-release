@@ -19,5 +19,6 @@ Gem::Specification.new do |spec|
 
   spec.executables   = ['app_release']
 
+  spec.add_dependency 'colorize', '~> 0.8.1'
   spec.add_development_dependency 'rubocop', '= 0.88'
 end
