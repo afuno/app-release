@@ -161,8 +161,7 @@ module AppRelease
     ############################################################################
 
     def create_git_tag_with(prefix = nil)
-      file = current_version_file.dup
-      version = version_formatted_for(file)
+      version = version_formatted_for(current_version_file)
       AppRelease::Git.create(version, prefix)
     end
   end
