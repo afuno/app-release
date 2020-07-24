@@ -48,11 +48,11 @@ module AppRelease
           upgrading_version(:major)
         end
 
-        opts.on('--minor', 'Upgrading the minor update') do
+        opts.on('--minor', 'Upgrading the minor version') do
           upgrading_version(:minor)
         end
 
-        opts.on('--patch', 'Upgrading the patch update') do
+        opts.on('--patch', 'Upgrading the patch version') do
           upgrading_version(:patch)
         end
 
